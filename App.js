@@ -3,12 +3,14 @@ import React from 'react';
 import { StyleSheet, Text, View, Picker, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import Contador from './Contador.js'
 
 export default function App() {
 
   console.disableYellowBox = true
 
-  const [segundos, setarSegundos] = useState(0);
+  const[estado, setarEstado] = useState('selecionar');
+  const [segundos, setarSegundos] = useState(1);
   const [minutos, setarMinutos] = useState(0);
 
   const [alarmeSound, setarAlarmeSound] = useState(
@@ -36,7 +38,11 @@ export default function App() {
 
   var numeros = [];
   for(var i = 1; i <= 60; i++){
-    numeros.push(i);
+    if(i<10){
+      numeros.push(i);
+    }else{
+      numeros.push(i);
+    }
   }
 
   function setarAlarme(id){
@@ -50,6 +56,8 @@ export default function App() {
 
     setarAlarmeSound(alarmesTemp);
   }
+  if(estado == 'selecionar'){
+
   return (
     <View style={styles.container}>
 
@@ -57,7 +65,7 @@ export default function App() {
 
       <LinearGradient
         // Background Linear Gradient
-        colors={['rgba(19, 1, 133,0.9)', 'rgba(19, 1, 133,0.2)']}
+        colors={['rgb(19, 1, 133)', 'rgba(19, 1, 133,0.4)']}
         style={styles.background}
       />
 
@@ -74,7 +82,8 @@ export default function App() {
           onValueChange={(itemValue, itemIndex) => setarMinutos(itemValue)}
 
           style={{ height: 50, width: 100, color:'white'}}>
-
+          
+          <Picker.Item label='0' value = '0'></Picker.Item> 
           {
           numeros.map(function(val){
             return(<Picker.Item label={val.toString()} value={val.toString()} />);
@@ -107,8 +116,21 @@ export default function App() {
           })
         }
       </View>
+
+        <TouchableOpacity style={styles.btnIniciar} onPress={() => setarEstado('iniciar')}>
+          <Text style={{color:'white', fontSize:20}}>START</Text>
+        </TouchableOpacity>
+
     </View>
   );
+
+  }else if(estado == 'iniciar'){
+    return(
+      <Contador  segundos={segundos} minutos={minutos} setarEstado={setarEstado} setarSegundos={setarSegundos} setarMinutos={setarMinutos}>
+
+      </Contador>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -136,5 +158,13 @@ const styles = StyleSheet.create({
     marginRight:10,
     borderColor:'white',
     borderWidth:1
+  },
+  btnIniciar:{
+    backgroundColor:'rgba(80, 69, 150,0.6)',
+    padding:50,
+    borderRadius:50,
+    marginTop:30,
+    borderColor:'white',
+    borderWidth:2,
   }
 });
