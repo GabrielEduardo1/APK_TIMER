@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Audio } from 'expo-av';
 
 export default function Contador(props) {
 
@@ -19,9 +20,11 @@ export default function Contador(props) {
                 }else{
                     if(!done){
                         done =true;
+                        playSound();
                         props.setarEstado('selecionar');
-                        props.setarMinutos(1);
-                        props.setarSegundos(0);
+                        props.setarMinutos(0);
+                        props.setarSegundos(1);
+                        
                     }
                 }
             }
@@ -32,10 +35,32 @@ export default function Contador(props) {
 
     })
 
+    async function playSound() {
+        const sound = new Audio.Sound();
+            try {
+                props.alarmes.map(function(val){
+                    if(val.selecionado){
+                        alarme = val.file;
+                    }
+                });
+
+                
+                await sound.loadAsync(alarme);
+                await sound.playAsync();
+                // Your sound is playing!
+
+                // Don't forget to unload the sound from memory
+                // when you are done using the Sound object
+                //await sound.unloadAsync();
+            } catch (error) {
+            // An error occurred!
+        }
+    }
     function resetar(){
         props.setarEstado('selecionar');
-        props.setarMinutos('0'+1);
-        props.setarSegundos('0'+0);
+        props.setarMinutos(0);
+        props.setarSegundos(1);
+        playSound;
     }
 
     function formatarNum(num){

@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Picker, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import Contador from './Contador.js'
+import Contador from './Contador.js';
 
 export default function App() {
 
@@ -19,30 +19,26 @@ export default function App() {
         id:1,
         selecionado: true,
         som:'Musica 1',
-        file:'alarm1.mp3',
+        file:require('./assets/alarme1.mp3'),
       },
       {
         id:2,
         selecionado:false,
         som:'Musica 2',
-        file:'alerm2.mp3',
+        file:require('./assets/alarme2.mp3'),
       },
       {
         id:3,
         selecionado: false,
         som:'Musica 3',
-        file:'alarm1.mp3',
+        file:require('./assets/alarme3.mp3'),
       }
     ]
   );
 
   var numeros = [];
   for(var i = 1; i <= 60; i++){
-    if(i<10){
       numeros.push(i);
-    }else{
-      numeros.push(i);
-    }
   }
 
   function setarAlarme(id){
@@ -126,7 +122,7 @@ export default function App() {
 
   }else if(estado == 'iniciar'){
     return(
-      <Contador  segundos={segundos} minutos={minutos} setarEstado={setarEstado} setarSegundos={setarSegundos} setarMinutos={setarMinutos}>
+      <Contador  alarmes={alarmeSound} segundos={segundos} minutos={minutos} setarEstado={setarEstado} setarSegundos={setarSegundos} setarMinutos={setarMinutos}>
 
       </Contador>
     );
